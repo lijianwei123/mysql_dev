@@ -1,0 +1,20 @@
+#安装mysql-replication-listener类库
+git clone https://github.com/SponsorPay/mysql-replication-listener
+cd mysql-replication-listener
+cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql-replication-listener
+make
+make install
+#安装node
+#安装log.io
+npm installl -g log.io
+
+#启动log.io-server
+./log.io-server &
+#启动log.io-harvester
+./log.io-harvester &
+#配置文件在/root/.log.io/log_server.conf  配置端口
+			harvester.conf    配置客户端监控文件
+
+http://www.vpsee.com/2012/11/install-real-time-log-monitoring-tool-log-io/
+
+#通过 http://168.192.122.29:28778/ 访问
