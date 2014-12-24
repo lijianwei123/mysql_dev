@@ -4,6 +4,10 @@ cd mysql-replication-listener
 cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql-replication-listener
 make
 make install
+
+makefile
+./start.sh
+
 #安装node
 #安装log.io
 npm installl -g log.io
