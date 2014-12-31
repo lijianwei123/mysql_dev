@@ -2,21 +2,15 @@
 CC = g++
 
 INC = -I ../base -I ../
-OPT = -Wall -Wno-deprecated -DDEBUG -g -lrt  -lpthread `mysql_config --libs` `pkg-config --cflags --libs libmongoc-1.0`
-
-SrcDir = .
-SRCS = $(foreach dir,$(SrcDir),$(wildcard $(dir)/*.cpp))
-OBJS = $(SRCS:%.cpp=%.o) ../base/libbase.a 
+OPT = -g -DDEBUG  -Wno-deprecated  `mysql_config --libs` `pkg-config --cflags --libs libmongoc-1.0`
+DEP = ../base/libbase.a
 
 TEST = test_syncStruct
 
 all: $(TEST)
 
-$(TEST): $(OBJS)
-	$(CC)  $(OPT) -o $@ $(OBJS)
-
-%.o:%.cpp
-	$(CC) $(OPT) $(INC) -c $< -o $@ 
+$(TEST): ./test_syncStruct.cpp  ../syncStruct.cpp
+	$(CC)  $(INC) $(OPT) $^ $(DEP) -o $@
 
 clean:
 	rm -f $(TEST) *.o

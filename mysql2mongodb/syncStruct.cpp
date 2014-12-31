@@ -32,10 +32,10 @@ bool syncStruct::sync()
 
 	//连接mongodb
 	mongoc_client_t *client = NULL;
-    mongoc_collection_t *collection = NULL;
-    bson_t *doc = NULL;
-    bson_error_t error;
-    char uri_string[200] = {0};
+    	mongoc_collection_t *collection = NULL;
+    	bson_t *doc = NULL;
+    	bson_error_t error;
+    	char uri_string[200] = {0};
 	sprintf(uri_string, "mongodb://%s:%d", _mongodb_config->host, _mongodb_config->port);
 
 	mongoc_init();
@@ -44,9 +44,9 @@ bool syncStruct::sync()
 	//查询所有表
 	result_data_t result_data;
 	memset(&result_data, 0, sizeof(result_data_t));
-	int i = 0;
+	int i = 0, j = 0;
 
-	char *show_tables_sql = "show tables";
+	char *show_tables_sql = const_cast<char *>("show tables");
 	retCode = mysql_select(&conn, show_tables_sql, &result_data);
 	assert(retCode == 0);
 	printf("db %s have %d table\n", _mysql_config->db, result_data.rows);
@@ -57,7 +57,8 @@ bool syncStruct::sync()
 	//输出数据
 	vector<string> tableList;
 	for (i = 0; i < result_data.rows; i++) {
-		tableList.push_back(string(*(data_ptr + i)->next->fieldValue));
+		pointer = *(data_ptr + i);
+		tableList.push_back(string(pointer->next->fieldValue));
 	}
 	free_result_data(&result_data);
 
@@ -66,14 +67,14 @@ bool syncStruct::sync()
 	for(tableIter = tableList.begin(); tableIter != tableList.end(); ++tableIter) {
 		cout << "table: " << *tableIter << endl;
 
-		sprintf(select_sql, "select * from `%s` limit 1", *tableIter.c_str());
+		sprintf(select_sql, "select * from `%s` limit 1", (*tableIter).c_str());
 
 		result_data_t result_data;
 		retCode = mysql_select(&conn, select_sql, &result_data);
 		assert(retCode == 0);
 
 		//mongodb 集合
-		collection = mongoc_client_get_collection(client, _mysql_config->db, *tableIter.c_str());
+		collection = mongoc_client_get_collection(client, _mysql_config->db, (*tableIter).c_str());
 		doc = bson_new();
 
 		for (i = 0; i < result_data.rows; i++) {
@@ -97,4 +98,5 @@ bool syncStruct::sync()
 
 	mysql_close(&conn);
 	mongoc_client_destroy(client);
+	return true;
 }
