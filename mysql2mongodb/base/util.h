@@ -31,6 +31,8 @@
 #include <iostream>
 #include <queue>
 
+using namespace std;
+
 //剔除换行符
 char *stripLineSep(char *str);
 
