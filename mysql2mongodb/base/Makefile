@@ -1,6 +1,6 @@
 CC = g++
 
-OPT = -Wall -Wno-deprecated -g -DDEBUG -lpthread `mysql_config --libs`
+OPT = -g -DDEBUG -Wall -Wno-deprecated  -lpthread `mysql_config --libs`
 
 SrcDir = .
 SRCS = $(foreach dir,$(SrcDir),$(wildcard $(dir)/*.cpp))
@@ -11,7 +11,7 @@ LIBBASE = libbase.a
 all: $(LIBBASE)
 
 $(LIBBASE): $(OBJS)
-	ar -r $@ $(OBJS)
+	ar -rs $@ $(OBJS)
 
 %.o:%.cpp
 	$(CC) $(OPT) -c $< -o $@ 

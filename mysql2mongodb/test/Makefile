@@ -2,7 +2,7 @@
 CC = g++
 
 INC = -I ../base -I ../
-OPT = -g -DDEBUG  -Wno-deprecated  `mysql_config --libs` `pkg-config --cflags --libs libmongoc-1.0`
+OPT = -g -Wall -DDEBUG  -Wno-deprecated  `mysql_config --libs` `pkg-config --cflags --libs libmongoc-1.0`
 DEP = ../base/libbase.a
 
 TEST = test_syncStruct
