@@ -5,12 +5,8 @@
  *  Author: lijianwei
  */
 
-#ifndef SYNCSTURCT_H_
-#define SYNCSTURCT_H_
-
-#include <cstring>
-#include <iostream>
-#include <vector>
+#ifndef SYNCSTRUCT_H_
+#define SYNCSTRUCT_H_
 
 
 #include <stdint.h>
@@ -20,8 +16,8 @@
 
 #include "mysql.h"
 #include <mongoc.h>
-#include "ConfigFileReader.h"
 #include "util.h"
+#include "ConfigFileReader.h"
 
 using namespace std;
 
@@ -43,4 +39,4 @@ private:
 	mongodb_connect_info_t *_mongodb_config;
 };
 
-#endif /* SYNCSTURCT_H_ */
+#endif /* SYNCSTRUCT_H_ */

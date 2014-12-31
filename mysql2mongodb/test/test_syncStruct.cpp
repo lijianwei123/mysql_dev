@@ -5,7 +5,7 @@
  *  Author: lijianwei
  */
 
-#include "syncSturct.h"
+#include "syncStruct.h"
 
 int main(int argc, char **argv)
 {

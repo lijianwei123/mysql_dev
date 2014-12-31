@@ -4,7 +4,7 @@
  *  Created on: 2014-12-30
  *  Author: lijianwei
  */
-#include "syncSturct.h"
+#include "syncStruct.h"
 
 syncStruct::syncStruct(mysql_connect_info_t *mysql_config, mongodb_connect_info_t *mongodb_config)
 {

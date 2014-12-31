@@ -23,6 +23,13 @@
 #include <sys/ipc.h>
 #include <sys/shm.h>
 
+#include <set>
+#include <map>
+#include <vector>
+#include <list>
+#include <string>
+#include <iostream>
+#include <queue>
 
 //剔除换行符
 char *stripLineSep(char *str);
