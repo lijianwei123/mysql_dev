@@ -16,7 +16,7 @@ $(LIBBASE): $(OBJS)
 %.o:%.cpp
 	$(CC) $(OPT) -c $< -o $@ 
 %.o:%.c
-	gcc -c $< -o $@
+	gcc -g -DDEBUG -c $< -o $@
 
 clean:
 	rm -f $(LIBBASE) *.o

@@ -46,7 +46,8 @@ bool syncStruct::sync()
 	memset(&result_data, 0, sizeof(result_data_t));
 	int i = 0, j = 0;
 
-	char *show_tables_sql = const_cast<char *>("show tables");
+	char show_tables_sql[200] = {0};
+	sprintf(show_tables_sql, "show tables from `%s`", _mysql_config->db);
 	retCode = mysql_select(&conn, show_tables_sql, &result_data);
 	assert(retCode == 0);
 	printf("db %s have %d table\n", _mysql_config->db, result_data.rows);
@@ -76,11 +77,16 @@ bool syncStruct::sync()
 		//mongodb 集合
 		collection = mongoc_client_get_collection(client, _mysql_config->db, (*tableIter).c_str());
 		doc = bson_new();
-
+		
+		data_ptr = result_data.data;
 		for (i = 0; i < result_data.rows; i++) {
 			pointer = *(data_ptr + i);
 			for (j = 0; j < result_data.columns; j++) {
+#ifdef DEBUG
+	printf("field name: %s\n", pointer->next->fieldName);
+#endif
 				BSON_APPEND_UTF8(doc, pointer->next->fieldName, pointer->next->fieldValue);
+				pointer = pointer->next;
 			}
 		}
 
@@ -88,13 +94,12 @@ bool syncStruct::sync()
 			cout <<  error.message << endl;
 		}
 
-		bson_destroy(doc);
-		mongoc_collection_destroy(collection);
-
 
 		free_result_data(&result_data);
 		memset(select_sql, 0, sizeof(select_sql));
 	}
+	bson_destroy(doc);
+        mongoc_collection_destroy(collection);
 
 	mysql_close(&conn);
 	mongoc_client_destroy(client);
